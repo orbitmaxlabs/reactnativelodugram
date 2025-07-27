@@ -202,6 +202,7 @@ class ChatService {
 
   // Listen to chat messages in real-time
   subscribeToChatMessages(chatId, callback) {
+    const db = getFirebaseDB();
     const messagesRef = collection(db, 'chats', chatId, 'messages');
     const q = query(messagesRef, orderBy('timestamp', 'asc'));
     
@@ -216,6 +217,7 @@ class ChatService {
 
   // Listen to user's chats in real-time
   subscribeToUserChats(userId, callback) {
+    const db = getFirebaseDB();
     const chatsRef = collection(db, 'chats');
     const q = query(
       chatsRef,
@@ -257,6 +259,7 @@ class ChatService {
   // Mark messages as read
   async markMessagesAsRead(chatId, userId) {
     try {
+      const db = getFirebaseDB();
       const messagesRef = collection(db, 'chats', chatId, 'messages');
       const q = query(
         messagesRef,
@@ -279,6 +282,7 @@ class ChatService {
   // Delete a message
   async deleteMessage(chatId, messageId) {
     try {
+      const db = getFirebaseDB();
       await deleteDoc(doc(db, 'chats', chatId, 'messages', messageId));
     } catch (error) {
       console.error('Error deleting message:', error);
@@ -289,10 +293,11 @@ class ChatService {
   // Leave a group chat
   async leaveGroupChat(chatId, userId) {
     try {
+      const db = getFirebaseDB();
       await updateDoc(doc(db, 'chats', chatId), {
         participants: arrayRemove(userId)
       });
-      
+
       await updateDoc(doc(db, 'users', userId), {
         chats: arrayRemove(chatId)
       });
