@@ -9,7 +9,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyAkWfYFDm84s3bz_aUAUAfUDmxxjg7DNnw",
   authDomain: "lodugram.firebaseapp.com",
   projectId: "lodugram",
-  storageBucket: "lodugram.firebasestorage.app",
+  storageBucket: "lodugram.appspot.com",
   messagingSenderId: "506675227207",
   appId: "1:506675227207:web:162dee371450d6cdccdf62"
 };
