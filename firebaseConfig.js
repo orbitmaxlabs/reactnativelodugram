@@ -1,6 +1,7 @@
 // Firebase configuration for Lodugram
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
+import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
@@ -24,7 +25,9 @@ let _storage = null;
 
 export const getFirebaseAuth = () => {
   if (!_auth) {
-    _auth = getAuth(app);
+    _auth = initializeAuth(app, {
+      persistence: getReactNativePersistence(ReactNativeAsyncStorage)
+    });
   }
   return _auth;
 };
