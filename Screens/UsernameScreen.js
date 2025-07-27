@@ -14,7 +14,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { BlurView } from 'expo-blur';
 
 const UsernameScreen = ({ navigation }) => {
-  const { user, setUserUsername } = useAuth();
+  const { setUserUsername } = useAuth();
   const [username, setUsername] = useState('');
   const [loading, setLoading] = useState(false);
 

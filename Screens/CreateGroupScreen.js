@@ -72,7 +72,12 @@ const CreateGroupScreen = ({ navigation }) => {
     try {
       // Include current user in participants
       const participants = [user.uid, ...selectedUsers];
-      await ChatService.createGroupChat(groupName, participants, user.uid);
+      await ChatService.createGroupChat(
+        groupName,
+        participants,
+        user.uid,
+        description
+      );
       
       Alert.alert('Success', 'Group created successfully!', [
         { text: 'OK', onPress: () => navigation.goBack() }
