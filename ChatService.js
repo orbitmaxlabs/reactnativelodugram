@@ -84,13 +84,14 @@ class ChatService {
   }
 
   // Create a group chat
-  async createGroupChat(name, participants, createdBy) {
+  async createGroupChat(name, participants, createdBy, description = '') {
     try {
       const db = getFirebaseDB();
       const groupRef = await addDoc(collection(db, 'chats'), {
-        name: name,
-        participants: participants,
-        createdBy: createdBy,
+        name,
+        description,
+        participants,
+        createdBy,
         isGroup: true,
         lastMessage: null,
         lastMessageTime: null,

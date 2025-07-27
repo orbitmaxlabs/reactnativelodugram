@@ -25,40 +25,32 @@ const ChatScreen = ({ navigation }) => {
   const [sending, setSending] = useState(false);
 
   useEffect(() => {
-    if (user) {
-      loadChats();
-    }
+    if (!user) return;
+
+    setLoading(true);
+    const unsubscribe = ChatService.subscribeToUserChats(user.uid, (c) => {
+      setChats(c);
+      setLoading(false);
+    });
+
+    return unsubscribe;
   }, [user]);
 
   useEffect(() => {
-    if (selectedChat) {
-      loadMessages(selectedChat.id);
-      markMessagesAsRead(selectedChat.id);
-    }
+    if (!selectedChat) return;
+
+    setMessages([]);
+    const unsubscribe = ChatService.subscribeToChatMessages(
+      selectedChat.id,
+      setMessages
+    );
+
+    markMessagesAsRead(selectedChat.id);
+
+    return unsubscribe;
   }, [selectedChat]);
 
-  const loadChats = async () => {
-    try {
-      setLoading(true);
-      const userChats = await ChatService.getUserChats(user.uid);
-      setChats(userChats);
-    } catch (error) {
-      console.error('Error loading chats:', error);
-      Alert.alert('Error', 'Failed to load chats');
-    } finally {
-      setLoading(false);
-    }
-  };
 
-  const loadMessages = async (chatId) => {
-    try {
-      const chatMessages = await ChatService.getChatMessages(chatId);
-      setMessages(chatMessages);
-    } catch (error) {
-      console.error('Error loading messages:', error);
-      Alert.alert('Error', 'Failed to load messages');
-    }
-  };
 
   const markMessagesAsRead = async (chatId) => {
     try {
